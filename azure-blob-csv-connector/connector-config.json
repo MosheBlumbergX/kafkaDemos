@@ -1,0 +1,26 @@
+{
+  "name": "azure-blob-csv-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.azure.blob.storage.AzureBlobStorageSourceConnector",
+    "tasks.max": "1",
+    "mode": "GENERIC",
+
+    "azblob.account.name": "<set from AZURE_STORAGE_ACCOUNT>",
+    "azblob.container.name": "csv-data",
+    "azblob.poll.interval.ms": "10000",
+
+    "topics.dir": "input",
+    "topic.regex.list": "employee-data:input/employees/.*\\.csv,new-hires:input/new_hires/.*\\.csv",
+
+    "format.class": "io.confluent.connect.cloud.storage.source.format.CloudStorageCsvFormat",
+    "csv.first.row.as.header": "true",
+
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+
+    "confluent.license": "",
+    "confluent.topic.bootstrap.servers": "kafka:29092",
+    "confluent.topic.replication.factor": "1"
+  }
+}

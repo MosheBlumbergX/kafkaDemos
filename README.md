@@ -21,6 +21,28 @@ cd csv-spooldir-connector
 
 ---
 
+### [azure-blob-csv-connector](./azure-blob-csv-connector/)
+The same CSV-to-Kafka flow, but the files are read from Azure Blob Storage instead of a local directory, using Confluent's Azure Blob Storage Source connector. Files are routed to different topics based on their folder in the container.
+
+**Features:**
+- Kafka 8.3.2 (KRaft mode - no Zookeeper)
+- Kafka Connect on `cp-server-connect` 8.3.2 (needed for the commercial connector's licensing; 30-day trial without a license key)
+- Confluent Azure Blob Storage Source Connector (GENERIC mode, CSV format)
+- Topic routing by folder: `input/employees/` → `employee-data`, `input/new_hires/` → `new-hires`
+- Credentials loaded from a git-ignored `.env` file (`AZURE_STORAGE_ACCOUNT` + `AZURE_STORAGE_KEY` or `AZURE_STORAGE_SAS_TOKEN`)
+- `upload-csv.sh` helper to push CSV files to the container
+- Kafka UI for monitoring
+
+**Quick Start:**
+```bash
+cd azure-blob-csv-connector
+# create .env with your Azure storage credentials first (see the demo README)
+./start-demo.sh
+./upload-csv.sh new_hires.csv new_hires
+```
+
+---
+
 ## Requirements
 
 - Docker
